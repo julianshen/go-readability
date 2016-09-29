@@ -139,6 +139,17 @@ func (d *Document) Content() string {
 	return d.content
 }
 
+func (d *Document) Text() string {
+	s := d.Content() // Genergate doc
+
+	doc, err := goquery.NewDocumentFromReader(strings.NewReader(s))
+	if err != nil {
+		return ""
+	}
+
+	return strings.Trim(doc.Text(), " ")
+}
+
 func (d *Document) prepareCandidates() {
 	// noscript might be valid, but probably not so we'll just remove it
 	d.document.Find("script, style,noscript").Each(func(i int, s *goquery.Selection) {
